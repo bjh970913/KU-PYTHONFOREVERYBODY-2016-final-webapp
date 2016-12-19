@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/edit" method="post">
+    <label>
+        <input name="title" type="text" value="{{note.title}}">
+    </label>
+    <label for="content"></label>
+    <textarea name="content" id="content" cols="30" rows="10">
+        {{note.content}}
+    </textarea>
+    <input type="submit">
+</form>
+</body>
+</html>
