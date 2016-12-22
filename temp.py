@@ -1,6 +1,6 @@
-def a(a, b='1', c=2, *args, **kargs):
-    print(a, b, c)
-    print(args)
-    print(kargs)
+def test():
+    if True:
+        a=1
+    print(a)
 
-a(a='1')
+test()

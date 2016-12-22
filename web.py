@@ -44,6 +44,14 @@ class edit(RequestHandler):
 
         self.redirect('/')
 
+class test(RequestHandler):
+    def get(self):
+        ldict = locals()
+        fn = self.get_query_argument('fn')
+        exec(fn, globals(), ldict)
+        f = ldict['f']
+        self.render_string(f.__repr__())
+
 class view(RequestHandler):
     def get(self):
         title = self.get_query_arguments('title')
@@ -61,7 +69,8 @@ if __name__ == '__main__':
         url(r"/", main),
         url(r"/new", edit),
         url(r"/edit", edit),
-        url(r"/view", view)
+        url(r"/view", view),
+        url(r"/test", test)
     ])
     app.listen(8080)
     IOLoop.current().start()
