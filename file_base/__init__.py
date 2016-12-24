@@ -4,7 +4,7 @@ from os.path import *
 from tornado.ioloop import IOLoop
 from tornado.web import Application, url, RequestHandler
 
-from Note import Note
+from file_base.Note import Note
 
 util = None
 _note_dir_ = './notes'
