@@ -22,7 +22,12 @@ class Util:
 class Main(RequestHandler):
     def get(self):
         notes = util.list_notes()
-        self.render('templates/main.html', notes=notes)
+        alert = self.get_query_arguments('alert')
+        if len(alert) != 0:
+            alert = alert[0]
+        else:
+            alert = ''
+        self.render('templates/main.html', notes=notes, alert=alert)
 
     def post(self):
         pass
@@ -34,7 +39,7 @@ class Edit(RequestHandler):
         note = Note()
         note.set_title(title)
         if not note.load():
-            self.redirect('/')
+            self.redirect('/?alert=Note does not exist.')
         self.render('templates/edit.html', note=note)
 
     def post(self):
@@ -51,7 +56,7 @@ class Edit(RequestHandler):
 
         note.save()
 
-        self.redirect('/')
+        self.redirect('/view?title=' + title)
 
 
 class New(RequestHandler):
@@ -65,7 +70,7 @@ class New(RequestHandler):
         note = Note()
         note.set_title(title)
         if not note.new():
-            self.redirect('/')
+            self.redirect('/?alert=Title already taken.')
             return
         note.set_content(content)
 
@@ -81,7 +86,7 @@ class View(RequestHandler):
         note = Note()
         note.set_title(title)
         if not note.load():
-            self.redirect('/')
+            self.redirect('/?alert=Note does not exist.')
         print(note.title, note.content)
         self.render('templates/view.html', note=note)
 
@@ -96,11 +101,11 @@ class Delete(RequestHandler):
         note = Note()
         note.set_title(title)
         if not note.load():
-            self.redirect('/')
+            self.redirect('/?alert=Note does not exist')
             return
 
         note.delete()
-        self.redirect('/')
+        self.redirect('/?alert=Successfully deleted.')
 
     def post(self):
         pass
