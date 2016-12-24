@@ -1,3 +1,4 @@
+import os
 import pickle
 import time
 from os import sep, path
@@ -13,6 +14,8 @@ class Note:
         self.ret = True
 
     def set_title(self, title):
+        if self.title != title and self.title is not None:
+            self.move(title)
         self.title = title
 
     def set_date(self, date):
@@ -61,3 +64,18 @@ class Note:
             return open(file_name, mode)
         except:
             return None
+
+    def delete(self):
+        file_name = self.base_path + sep + self.title + ".note"
+        try:
+            os.remove(file_name)
+        except:
+            pass
+
+    def move(self, title):
+        file_name_1 = self.base_path + sep + self.title + ".note"
+        file_name_2 = self.base_path + sep + title + ".note"
+        try:
+            os.rename(file_name_1, file_name_2)
+        except:
+            pass

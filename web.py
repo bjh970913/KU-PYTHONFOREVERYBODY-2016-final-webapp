@@ -39,9 +39,13 @@ class Edit(RequestHandler):
 
     def post(self):
         title = self.get_body_argument('title')
+        title_pre = self.get_body_argument('title_pre')
         content = self.get_body_argument('content')
 
         note = Note()
+        note.set_title(title_pre)
+        note.load()
+
         note.set_title(title)
         note.set_content(content)
 
@@ -85,6 +89,23 @@ class View(RequestHandler):
         pass
 
 
+class Delete(RequestHandler):
+    def get(self):
+        title = self.get_query_argument('title')
+
+        note = Note()
+        note.set_title(title)
+        if not note.load():
+            self.redirect('/')
+            return
+
+        note.delete()
+        self.redirect('/')
+
+    def post(self):
+        pass
+
+
 if __name__ == '__main__':
     util = Util()
     app = Application([
@@ -92,6 +113,7 @@ if __name__ == '__main__':
         url(r"/new", New),
         url(r"/edit", Edit),
         url(r"/view", View),
+        url(r"/delete", Delete)
     ])
     app.listen(8080)
     IOLoop.current().start()
