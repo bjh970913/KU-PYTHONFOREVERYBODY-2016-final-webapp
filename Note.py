@@ -1,22 +1,16 @@
-import time
 import pickle
-from os import sep
+import time
+from os import sep, path
 
 
 class Note:
-    def __init__(self, title=""):
+    def __init__(self):
         super().__init__()
         self.base_path = "./notes"
-        self.title = title
-
-        if len(title)!=0:
-            self.load()
-        else:
-            self.content = ''
-            self.date = time.localtime()
-
-    def set_basepath(self, path):
-        self.base_path = path
+        self.title = None
+        self.content = None
+        self.date = time.localtime()
+        self.ret = True
 
     def set_title(self, title):
         self.title = title
@@ -28,18 +22,28 @@ class Note:
         self.content = content
 
     def load(self):
-        if self.title == '':
-            self.content = ''
+        file = self.get_file()
+        if file is None:
+            self.ret = False
+        else:
+            try:
+                tmp_dict = pickle.load(file)
+                self.__dict__.update(tmp_dict)
+                self.ret = True
+            except:
+                self.ret = False
+            file.close()
 
-        try:
-            f = self.get_file()
-            tmp_dict = pickle.load(f)
-            f.close()
+        return self.ret
 
-            self.__dict__.update(tmp_dict)
-        except:
-            self.save()
-            pass
+    def new(self):
+        file = self.get_file(create=True, mode='wb')
+        if not file or file is None:
+            self.ret = False
+        else:
+            self.ret = True
+            file.close()
+        return self.ret
 
     def save(self):
         print('saving...', self.title, self.content)
@@ -47,8 +51,13 @@ class Note:
         pickle.dump(self.__dict__, f, 2)
         f.close()
 
-    def get_file(self, mode='rb'):
-        if self.title == '':
-            return None
+    def get_file(self, create=False, mode='rb'):
+        file_name = self.base_path + sep + self.title + ".note"
         print('open', self.base_path + sep + self.title + ".note")
-        return open(self.base_path + sep + self.title + ".note", mode)
+        if create and path.exists(file_name):
+            return False
+
+        try:
+            return open(file_name, mode)
+        except:
+            return None
