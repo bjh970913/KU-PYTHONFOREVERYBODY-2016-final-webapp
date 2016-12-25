@@ -1,0 +1,87 @@
+{% extends "main.html" %}
+{% block style %}
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th, td {
+        height: 50px;
+        position: relative;
+        text-align: center;
+    }
+
+    th > a {
+        position: absolute;
+        text-decoration: none;
+        color: black;
+        font-size: 12px;
+        padding-left: 3px;
+    }
+
+    th > a:nth-child(1) {
+        top: 13px;
+    }
+
+    th > a:nth-child(2) {
+        top: 28px;
+    }
+
+    tr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+    }
+
+    #alert {
+        width: 600px;
+        text-align: center;
+        font-size: 20px;
+        color: red;
+    }
+</style>
+{% end %}
+{% block body %}
+<div id="alert">{{alert}}</div>
+<table>
+    <thead>
+    <tr>
+        <th width="50px">
+            id
+            <a href="?sort=id_asc">▲</a>
+            <a href="?sort=id_dsc">▼</a>
+        </th>
+        <th width="200px">
+            title
+            <a href="?sort=title_asc">▲</a>
+            <a href="?sort=title_dsc">▼</a>
+        <th width="150px">
+            create
+            <a href="?sort=created_asc">▲</a>
+            <a href="?sort=created_dsc">▼</a>
+        </th>
+        <th width="150px">
+            update
+            <a href="?sort=updated_asc">▲</a>
+            <a href="?sort=updated_dsc">▼</a>
+        </th>
+        <th width="30px">
+            edit
+        </th>
+        <th width="30px">
+            del
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in notes %}
+    <tr>
+        <td>{{i.id}}</td>
+        <td><a href="/view?id={{i.id}}">{{i.title}}</a></td>
+        <td>{{i.created.strftime('%y/%m/%d %H:%M:%S')}}</td>
+        <td>{{i.updated.strftime('%y/%m/%d %H:%M:%S')}}</td>
+        <td><a href="/edit?id={{i.id}}">edit</a></td>
+        <td><a href="/delete?id={{i.id}}">delete</a></td>
+    </tr>
+    {% end %}
+    </tbody>
+</table>
+{% end %}

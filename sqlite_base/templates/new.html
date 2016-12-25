@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+{% block style %}
+<style>
+    [name='title'] {
+        width: 600px;
+        position: absolute;
+        height: 30px;
+        font-size: 25px;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        top: 50px;
+    }
+
+    [name='content'] {
+        width: 597.5px;
+        height: 300px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 95px;
+        font-size: 15px;
+        border-radius: 4px;
+    }
+
+    [type='submit'] {
+        width: 597.5px;
+        height: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 410px;
+        font-size: 15px;
+        border-radius: 4px;
+    }
+</style>
+{% end %}
+{% block body %}
+<form action="/new" method="post">
+    <input type="hidden" name="id">
+    <input name="title" type="text" placeholder="title">
+    <textarea name="content" id="content" cols="30" rows="10" placeholder="content">
+    </textarea>
+    <input type="submit">
+</form>
+{% end %}

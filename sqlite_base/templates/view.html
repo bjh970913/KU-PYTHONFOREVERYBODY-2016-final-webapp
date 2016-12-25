@@ -1,0 +1,37 @@
+{% extends "main.html" %}
+{% block style %}
+<style>
+    [name='title'] {
+        width: 600px;
+        position: absolute;
+        height: 30px;
+        font-size: 25px;
+        border: 0;
+        top: 50px;
+    }
+
+    [name='content'] {
+        width: 597.5px;
+        height: 300px;
+        position: absolute;
+        top: 95px;
+        font-size: 15px;
+    }
+
+    [name='edit'] {
+        width: 597.5px;
+        height: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 410px;
+        font-size: 15px;
+        border-radius: 4px;
+        text-align: center;
+    }
+</style>
+{% end %}
+{% block body %}
+<a name="edit" href="/edit?id={{note.id}}">edit</a>
+<p name="title">{{note.title}}</p>
+<pre name="content">{{note.content}}</pre>
+{% end %}
